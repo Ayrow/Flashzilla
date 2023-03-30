@@ -35,7 +35,7 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 5)
-                    .background(.black.opacity(0.5))
+                    .background(.black.opacity(0.75))
                     .clipShape(Capsule())
                 
                 ZStack {
@@ -48,6 +48,16 @@ struct ContentView: View {
                             .stacked(at: index, in: cards.count)
                         
                     }
+                }
+                .allowsHitTesting(timeRemaining > 0)
+                
+                if cards.isEmpty {
+                    Button("Start again", action: resetCards)
+                        .padding()
+                        .background(.white)
+                        .foregroundColor(.black)
+                        .clipShape(Capsule())
+                    
                 }
             }
             if differentiateWithoutColor {
@@ -93,6 +103,17 @@ struct ContentView: View {
     
     func removeCard(at index: Int) {
         cards.remove(at: index)
+        
+        if cards.isEmpty {
+            isActive = false
+            
+        }
+    }
+    
+    func resetCards() {
+        cards = Array(repeating: Card.example, count: 10)
+        timeRemaining = 100
+        isActive = true
     }
     
 }
